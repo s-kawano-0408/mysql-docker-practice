@@ -6,7 +6,7 @@
 ## プロジェクト概要
 
 - プロジェクト名: `mysql-docker-practice`
-- 目的: LVLPATH PREMIUM 課題「MySQL」をローカル環境で実施し、GitHub で管理する
+- 目的: 課題「MySQL」をローカル環境で実施し、GitHub で管理する
 - オーナー: Seiya（学習目的。説明は日本語で、初学者にも分かるように）
 
 ## 課題内容（原文要約）

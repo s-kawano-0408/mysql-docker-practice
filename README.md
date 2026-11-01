@@ -1,6 +1,6 @@
 # mysql-docker-practice
 
-LVLPATH PREMIUM 課題「MySQL」の実施リポジトリです。
+課題「MySQL」の実施リポジトリです。
 Docker で MySQL コンテナを起動し、`practice` データベースと `User` テーブルを作成して CRUD を行います。
 
 ## 必要なもの
