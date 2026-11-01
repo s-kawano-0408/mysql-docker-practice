@@ -1,0 +1,3 @@
+-- 課題(1): practice データベースを作成する
+-- TODO: CREATE DATABASE 文を書く
+-- 確認: SHOW DATABASES;
