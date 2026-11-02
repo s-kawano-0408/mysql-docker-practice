@@ -61,16 +61,16 @@ mysql-docker-practice/
 
 Claude Code は以下を順に進め、完了したら `[x]` に更新し、`docs/log.md` に実行コマンドと出力を記録すること。
 
-- [ ] 0. 事前確認: `docker --version` / `docker compose version` / `git --version`
-- [ ] 1. `cp .env.example .env` し、パスワードを設定
-- [ ] 2. `docker compose up -d` でコンテナ起動、`docker compose ps` で healthy を確認
-- [ ] 3. `docker exec -it mysql-practice bash` → `mysql -u root -p` で接続
-- [ ] 4. `sql/01_create_database.sql` を作成・実行し `SHOW DATABASES;` で確認
-- [ ] 5. `sql/02_create_user_table.sql` を作成・実行し `DESCRIBE User;` で確認
-- [ ] 6. `sql/03_crud.sql` を作成・実行（INSERT → SELECT(WHERE) → UPDATE(WHERE) → DELETE(WHERE)）
-- [ ] 7. 各ステップの結果を `docs/log.md` に記録
-- [ ] 8. README の「実施結果」欄を更新
-- [ ] 9. 意味のある単位でコミットし、GitHub に push
+- [x] 0. 事前確認: `docker --version` / `docker compose version` / `git --version`
+- [x] 1. `cp .env.example .env` し、パスワードを設定
+- [x] 2. `docker compose up -d` でコンテナ起動、`docker compose ps` で healthy を確認
+- [x] 3. `docker exec -it mysql-practice bash` → `mysql -u root -p` で接続
+- [x] 4. `sql/01_create_database.sql` を作成・実行し `SHOW DATABASES;` で確認
+- [x] 5. `sql/02_create_user_table.sql` を作成・実行し `DESCRIBE User;` で確認
+- [x] 6. `sql/03_crud.sql` を作成・実行（INSERT → SELECT(WHERE) → UPDATE(WHERE) → DELETE(WHERE)）
+- [x] 7. 各ステップの結果を `docs/log.md` に記録
+- [x] 8. README の「実施結果」欄を更新
+- [x] 9. 意味のある単位でコミットし、GitHub に push
 
 ## SQL ファイルの実行方法
 

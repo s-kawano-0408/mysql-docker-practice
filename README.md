@@ -40,8 +40,8 @@ docker exec -i mysql-practice sh -c 'mysql -t -uroot -p"$MYSQL_ROOT_PASSWORD"' <
 
 ## 実施結果
 
-- [ ] 課題(1) 完了
-- [ ] 課題(2) 完了
+- [x] 課題(1) 完了（Docker で MySQL 8.0 起動 → practice DB 作成）
+- [x] 課題(2) 完了（User テーブル作成 → INSERT / SELECT(WHERE) / UPDATE(WHERE) / DELETE(WHERE)）
 
 詳細ログ: [docs/log.md](docs/log.md)
 
