@@ -9,6 +9,39 @@
 - 目的: 課題「MySQL」をローカル環境で実施し、GitHub で管理する
 - オーナー: Seiya（学習目的。説明は日本語で、初学者にも分かるように）
 
+## 進め方のルール（Claude Code への指示）
+
+- オーナーは初学者。一緒に学ぶことが目的なので、Claude が先に作業を進めない
+- コード（SQL・設定ファイルなど）は基本的にオーナーが書く。Claude は課題の答えを代わりに書かない
+- 説明は「課題がこう言っている → だからこれが必要」の順で、課題から逆算する
+- 説明には必ず図を付ける（ターミナルでは ASCII 図、md ファイルには Mermaid 図）
+- オーナーがコードを書く前に、次の 3 つを示す
+  1. 例（課題の答えそのものではなく、似た題材の例）
+  2. 例の説明（1 行ずつ、何をしているか・なぜそう書くか）
+  3. 実務での使われ方と応用（現場ではこう使う、こう発展させられる）
+- 説明には、オーナーがあとで読んで理解を深められるよう、参考リンクを付ける
+  - 公式ドキュメントや Qiita・Zenn などの解説記事
+  - 古すぎる記事は避け、今も通用する内容か（バージョン・更新日）を確認してから貼る
+  - 実在するか・内容が合っているかを確かめたリンクだけを貼る
+- 1 ステップごとに止まり、理解できたかを確認してから次に進む
+- ファイルの作成・コマンドの実行は、内容を説明してオーナーの同意を得てから
+- オーナーが書いたコードは一緒に確認し、間違いはすぐ直さずにヒントを出して気づけるようにする
+- SQL には 1 文ずつ意味が分かるコメントを付ける
+- 各ステップで学んだことは `docs/learning.md` に、実行したコマンドと結果は `docs/log.md` に記録する
+  - 学習ノート（`docs/learning.md`）は Claude が下書きし、オーナーが読んで直す
+- エラーが出たら、原因と対処を `docs/log.md` に残す
+- 破壊的な操作（`DROP`、`docker compose down -v`、ファイル削除など）は必ず事前に確認する
+
+### 1 ステップの流れ
+
+1. 課題から逆算して、このステップで何が必要かを説明する
+2. 図で全体像を示す
+3. 例を見せる
+4. 例の説明と、実務での使われ方・応用を伝え、参考リンクを貼る
+5. オーナーが書く・実行する
+6. 一緒に確認する
+7. `docs/learning.md` / `docs/log.md` に記録し、理解を確認してから次へ
+
 ## 課題内容（原文要約）
 
 ### 課題(1)
@@ -33,74 +66,31 @@
 
 ## ディレクトリ構成
 
+ファイルは一緒に作りながら、ここに書き足していく。
+
 ```
 mysql-docker-practice/
-├── CLAUDE.md              # この引き継ぎ資料
-├── README.md              # 人間向けの手順・提出用まとめ
-├── docker-compose.yml     # MySQL 8.0 コンテナ定義
-├── .env.example           # 環境変数のテンプレート（.env にコピーして使う）
-├── .gitignore
-├── sql/
-│   ├── 01_create_database.sql   # 課題(1) DB作成
-│   ├── 02_create_user_table.sql # 課題(2) テーブル作成
-│   └── 03_crud.sql              # 課題(2) CRUD
-└── docs/
-    └── log.md             # 実行コマンドと結果のログ（提出・振り返り用）
+├── CLAUDE.md   # この引き継ぎ資料
+└── README.md   # 提出用のまとめ（最後に自分たちで書く）
 ```
 
-## 環境
+## 進捗（チェックリスト）
 
-- Docker Desktop（または Docker Engine + Compose v2）が必要
-- イメージ: `mysql:8.0`
-- コンテナ名: `mysql-practice`
-- ホスト側ポート: `3306`（使用中なら `.env` の `MYSQL_PORT` を変更）
-- 接続情報は `.env` で管理（**`.env` は Git にコミットしない**）
-- `practice` DB は課題として手動作成するため、`MYSQL_DATABASE` は**あえて設定しない**
+完了したら `[x]` にする。各ステップは上の「1 ステップの流れ」で進める。
 
-## 作業タスク（チェックリスト）
-
-Claude Code は以下を順に進め、完了したら `[x]` に更新し、`docs/log.md` に実行コマンドと出力を記録すること。
-
-- [ ] 0. 事前確認: `docker --version` / `docker compose version` / `git --version`
-- [ ] 1. `cp .env.example .env` し、パスワードを設定
-- [ ] 2. `docker compose up -d` でコンテナ起動、`docker compose ps` で healthy を確認
-- [ ] 3. `docker exec -it mysql-practice bash` → `mysql -u root -p` で接続
-- [ ] 4. `sql/01_create_database.sql` を作成・実行し `SHOW DATABASES;` で確認
-- [ ] 5. `sql/02_create_user_table.sql` を作成・実行し `DESCRIBE User;` で確認
-- [ ] 6. `sql/03_crud.sql` を作成・実行（INSERT → SELECT(WHERE) → UPDATE(WHERE) → DELETE(WHERE)）
-- [ ] 7. 各ステップの結果を `docs/log.md` に記録
-- [ ] 8. README の「実施結果」欄を更新
-- [ ] 9. 意味のある単位でコミットし、GitHub に push
-
-## SQL ファイルの実行方法
-
-ホストから直接流す場合:
-
-```bash
-docker exec -i mysql-practice sh -c 'mysql -uroot -p"$MYSQL_ROOT_PASSWORD"' < sql/01_create_database.sql
-```
-
-`-t` を付けると表形式で出力されるのでログに残しやすい:
-
-```bash
-docker exec -i mysql-practice sh -c 'mysql -t -uroot -p"$MYSQL_ROOT_PASSWORD"' < sql/03_crud.sql
-```
+- [ ] 0. 課題を読み、何が必要かを理解する
+- [ ] 1. 必要な道具（Docker / Docker Compose / Git）がそろっているか確認する
+- [ ] 2. MySQL コンテナを起動するための環境を作る
+- [ ] 3. コンテナを起動して接続する
+- [ ] 4. `practice` データベースを作る（課題(1)）
+- [ ] 5. `User` テーブルを作る（課題(2)）
+- [ ] 6. CRUD を行う（課題(2)）
+- [ ] 7. README に実施結果をまとめる
+- [ ] 8. GitHub に push する
 
 ## Git / GitHub 運用ルール
 
 - ブランチ: `main` を基本とし、課題ごとに `feature/task1`, `feature/task2` を切ってもよい
 - コミットメッセージは日本語可。プレフィックス例: `feat:`, `docs:`, `chore:`
   - 例: `feat: 課題(1) practice データベース作成SQLを追加`
-- `.env`、`mysql-data/` などの生成物はコミットしない（`.gitignore` 済み）
-- リモート作成は GitHub CLI を使う:
-  ```bash
-  gh auth login            # 初回のみ
-  gh repo create mysql-docker-practice --private --source=. --remote=origin --push
-  ```
-
-## Claude Code への指示
-
-- 学習目的なので、コマンドや SQL を実行する前に「何をするか・なぜか」を短く日本語で説明する
-- SQL は 1 文ずつ意味が分かるようにコメントを付ける
-- 破壊的操作（`DROP`, `docker compose down -v` など）は実行前にユーザーへ確認する
-- エラー時は原因と対処を `docs/log.md` に残す（よくある例: ポート3306競合、起動直後で接続拒否）
+- パスワードなどの秘密情報や、自動で生成されるファイルはコミットしない

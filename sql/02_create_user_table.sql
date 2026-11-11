@@ -1,4 +1,0 @@
--- 課題(2): practice データベースに User テーブルを作成する
--- スキーマ: id(PK), name, email, created_at, updated_at
--- TODO: USE practice; と CREATE TABLE User (...) を書く
--- 確認: DESCRIBE User;
