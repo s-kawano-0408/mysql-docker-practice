@@ -72,3 +72,68 @@ Cannot connect to the Docker daemon at unix:///... Is the docker daemon running?
 - Docker 公式 `docker version`: https://docs.docker.com/reference/cli/docker/version/
 - Docker 公式 Docker Compose とは: https://docs.docker.com/compose/
 - Pro Git（日本語）ブランチとは: https://git-scm.com/book/ja/v2/Git-のブランチ機能-ブランチとは
+
+---
+
+## ステップ 2: イメージとコンテナ（2026-11-14）
+
+### たとえ: たい焼きの型と、焼けたたい焼き
+
+```mermaid
+flowchart LR
+    H["Docker Hub<br/>（ネット上の型置き場）"] -- "ダウンロード（pull）" --> I["イメージ<br/>= たい焼きの型<br/>例: mysql:8.4"]
+    I -- "起動（run）" --> C1["コンテナ 1<br/>= 焼けたたい焼き"]
+    I -- "起動（run）" --> C2["コンテナ 2"]
+```
+
+| | イメージ | コンテナ |
+|---|---|---|
+| たとえ | たい焼きの型（設計図） | 焼けたたい焼き（実物） |
+| 動く？ | 動かない | **この中で MySQL が動く** |
+| 変更 | できない（読み取り専用） | できる（データを入れたりする） |
+| 数 | 1 つ | 同じイメージから何個でも作れる |
+| 消すと？ | — | コンテナを消しても、イメージは残る |
+
+- `mysql:8.4` の `:8.4` の部分は **タグ**。「どのバージョンの型か」を示す名札
+
+### 手元にあるものを見るコマンド
+
+| コマンド | 何を見る？ |
+|---|---|
+| `docker images` | 手元にある**イメージ**の一覧（型の棚） |
+| `docker ps` | **動いている**コンテナの一覧 |
+| `docker ps -a` | **止まっているもの**も含めた、全部のコンテナの一覧（`-a` = all） |
+
+どれも「見るだけ」なので、打っても何も変わらない。
+
+結果の見方:
+
+- `docker images` の `EXTRA` 列の `U` = In Use。**このイメージから作ったコンテナがある**という印
+- `docker ps -a` の `STATUS` 列
+  - `Up ...` = 動いている
+  - `Exited ...` = 止まっている（`docker ps` だけだと表示されない）
+
+実務では「ちゃんと動いてる？」と思ったら、まず `docker ps` を打つ。トラブル時の最初の確認。
+
+### 参考リンク
+
+- Docker 公式 What is an image?: https://docs.docker.com/get-started/docker-concepts/the-basics/what-is-an-image/
+- Docker 公式 What is a container?: https://docs.docker.com/get-started/docker-concepts/the-basics/what-is-a-container/
+- Docker Hub MySQL 公式イメージ: https://hub.docker.com/_/mysql
+- CircleCI「Docker のイメージとコンテナ: どう違う？」(2022): https://circleci.com/ja/blog/docker-image-vs-container/
+- Zenn「Dockerと仮想化の基本整理【初心者向けまとめ】」(2025): https://zenn.dev/kmj13/articles/docker_virtualization_ja
+- Docker 公式 `docker image ls`（= `docker images`）: https://docs.docker.com/reference/cli/docker/image/ls/
+- Docker 公式 `docker container ls`（= `docker ps`）: https://docs.docker.com/reference/cli/docker/container/ls/
+
+### MySQL のバージョンとタグの選び方
+
+| 系統 | 特徴 | Docker Hub のタグ（2026-11 時点） |
+|---|---|---|
+| LTS（長期サポート版） | 機能は変わらず修正だけ入る。サポートが長い（約 8 年） | `9.7`（= `lts`）、`8.4` |
+| Innovation（新機能版） | 新機能が入る。次の版が出たらサポート終了 | `26.10`（= `innovation` = `latest`） |
+
+- 2026 年 7 月から、バージョン番号が「年.月」の形になった（`26.10` = 2026 年 10 月版）。`9.7` が連番のラスト
+- `latest` は貼り替えられ続ける名札。ダウンロードした時期で中身が変わるので、実務では使わず `mysql:9.7` のように番号を書く
+- 今回は **`mysql:9.7`** を使うことにした（本番環境でも選ばれやすい安定版）
+
+参考: MySQL 公式 Innovation and LTS: https://dev.mysql.com/doc/refman/26.10/en/mysql-releases.html

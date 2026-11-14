@@ -59,8 +59,9 @@
 | 2026-11-11 | 用意済みのファイル（`docker-compose.yml`・`.env.example`・`.gitignore`・`sql/`・`docs/log.md`）を削除し、ゼロからのスタートにした。進め方のルールを見直した（PR #1） |
 | 2026-11-11 | 説明済み（ざっくり）: 課題から逆算して必要なもの（MySQL・データベース/テーブル・SQL・Docker・Docker Compose・Git）。Git の add / commit / branch / push / PR |
 | 2026-11-12 | ステップ 1 完了: Git 2.49.0 / Docker 29.6.2 / Docker Compose v5.3.1 を確認。Docker のクライアントとデーモン（受付係と工場）を説明。`docs/log.md`・`docs/learning.md` を作成 |
+| 2026-11-14 | ステップ 2 前半: イメージ（型）/ コンテナ（実物）を説明。`docker images` / `docker ps -a` で手元を確認（`mysql:8.4` あり、MySQL コンテナはなし）。使うイメージを **`mysql:9.7`（LTS）** に決定（`latest` は使わない） |
 
-**次にやること**: 進捗チェックリストの「2. MySQL コンテナを起動するための環境を作る」から。最初に Docker の説明（イメージ / コンテナ）をもう一度ゆっくり行う。
+**次にやること**: ステップ 2 の続き。`docker-compose.yml`（箱の作り方メモ）とは何か・なぜ必要かの説明から。作業ブランチは `feat/step2-mysql-env`。
 
 > 進捗を進めたら、この表に 1 行追加して commit / push すること。
 
